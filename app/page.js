@@ -1,5 +1,7 @@
 "use client";
 import React, { useState } from "react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TodoApp = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +13,21 @@ const TodoApp = () => {
     copytask.splice(index, 1);
     setTodos(copytask);
   };
+
+  const notify = () => {
+    return (toast.success('Task Added Successfully..', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Slide,
+      }))
+  };
+
   let showTask = <h3>No Task Available.</h3>;
   if (todos.length > 0) {
     showTask = todos.map((todo, index) => {
@@ -40,6 +57,7 @@ const TodoApp = () => {
       <h1 className="bg-zinc-800 text-center text-slate-300 text-3xl font-bold p-4 tracking-wider">
         Todo App.
       </h1>
+      <ToastContainer />
       <div className="flex justify-center items-center mt-5 flex-col gap-5">
         <form
           onSubmit={(e) => {
@@ -48,6 +66,7 @@ const TodoApp = () => {
             setTodos([...todos, { title, desc }]);
             setTitle("");
             setDesc("");
+            notify()
             console.log(todos);
           }}
         >
@@ -69,7 +88,9 @@ const TodoApp = () => {
               setDesc(e.target.value);
             }}
           />
-          <button className="bg-zinc-700 px-4 hover:bg-zinc-600 py-2 text-white font-medium- rounded">
+          <button
+            className="bg-zinc-700 px-4 hover:bg-zinc-600 py-2 text-white font-medium- rounded"
+          >
             Add Task
           </button>
         </form>
